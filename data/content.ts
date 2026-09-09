@@ -16,7 +16,7 @@ export const hero = {
   sub: "BILIG ажлыг хялбарчилж, боловсролыг ойртуулна.",
   stats: [
     { value: "1 өдөр", label: "нэвтрүүлэлтийн хугацаа", color: "blue" as const },
-    { value: "6 модуль", label: "нэг өгөгдлийн сан", color: "purple" as const },
+    { value: "6 модуль", label: "нэг системд", color: "purple" as const },
     { value: "0₮", label: "өгөгдөл шилжүүлэлт", color: "orange" as const },
   ],
 };
