@@ -8,7 +8,7 @@ import { UserTypes } from "@/components/sections/UserTypes";
 import { BeforeAfter } from "@/components/sections/BeforeAfter";
 import { Pricing } from "@/components/sections/Pricing";
 import { FAQ } from "@/components/sections/FAQ";
-import { CTASection } from "@/components/sections/CTASection";
+import { tenantUrl } from "@/lib/env";
 
 export default function Home() {
   return (
@@ -21,9 +21,8 @@ export default function Home() {
       <PromoBand />
       <UserTypes />
       <BeforeAfter />
-      <Pricing />
+      <Pricing tenantUrl={tenantUrl} />
       <FAQ />
-      <CTASection />
     </>
   );
 }

@@ -30,8 +30,8 @@ type NativeButtonProps = CommonProps & { href?: undefined } & Omit<
 export type ButtonProps = LinkButtonProps | NativeButtonProps;
 
 /** Pill-shaped CTA button. Renders a Next.js `Link` when `href` is given
- * (in-page anchors like `#ehleh` resolve fine through it), otherwise a
- * native `<button>` for form submits. */
+ * (in-page anchors and the external tenant-app links both resolve fine
+ * through it), otherwise a native `<button>` for form submits. */
 export function Button({ variant = "pri", size = "md", className = "", children, href, ...rest }: ButtonProps) {
   const classes = ["c-btn", variantClass[variant], size === "sm" ? "c-btn--sm" : "", className]
     .filter(Boolean)

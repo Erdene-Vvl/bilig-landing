@@ -4,9 +4,11 @@
 # Built in CI (GitHub Actions), pushed to GHCR and pulled by the droplet —
 # the server has 2 vCPU and never builds this itself.
 #
-# The landing site is entirely static content compiled into the bundle: it
-# reads no environment variables and calls no backend, so the image needs no
-# build-time configuration and one image runs in any environment.
+# The landing site is static content compiled into the bundle — no backend
+# calls, no secrets — but the homepage IS prerendered at build time, so the
+# one env var it does read (TENANT_URL, where the CTAs hand off to) has to
+# be supplied as a build arg here, not a runtime container env: setting it
+# on `docker run` would have no effect on an already-static page.
 
 # ── deps ─────────────────────────────────────────────────────────────────
 FROM node:24-alpine AS deps
@@ -20,7 +22,9 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-ENV NEXT_TELEMETRY_DISABLED=1
+ARG TENANT_URL
+ENV TENANT_URL=${TENANT_URL} \
+    NEXT_TELEMETRY_DISABLED=1
 RUN npm run build
 
 # ── runner ───────────────────────────────────────────────────────────────

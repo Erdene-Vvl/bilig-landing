@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/Button";
 import { Arc } from "@/components/ui/Arc";
 import { textColor } from "@/lib/colors";
 import { renderMoney } from "@/lib/money";
+import { tenantUrl, tenantDemoUrl } from "@/lib/env";
 import { ScheduleCard } from "./hero/ScheduleCard";
 
 export function Hero() {
@@ -28,10 +29,10 @@ export function Hero() {
             {hero.sub}
           </p>
           <div className="flex flex-wrap gap-3 mt-4">
-            <Button href="#ehleh" variant="pri">
+            <Button href={tenantUrl} variant="pri" target="_blank" rel="noopener noreferrer">
               Үнэгүй турших
             </Button>
-            <Button href="#ehleh" variant="sec">
+            <Button href={tenantDemoUrl} variant="sec" target="_blank" rel="noopener noreferrer">
               Демо үзэх
             </Button>
           </div>

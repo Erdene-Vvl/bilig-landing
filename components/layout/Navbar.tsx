@@ -3,6 +3,7 @@ import { nav } from "@/data/content";
 import { Button } from "@/components/ui/Button";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { BiligLogo } from "@/components/ui/BiligLogo";
+import { tenantUrl, tenantDemoUrl } from "@/lib/env";
 
 export function Navbar() {
   return (
@@ -22,10 +23,17 @@ export function Navbar() {
 
         <div className="ml-auto flex items-center gap-2.5 min-[900px]:ml-5.5">
           <ThemeToggle />
-          <Button href="#ehleh" variant="sec" size="sm" className="hidden min-[560px]:inline-flex">
+          <Button
+            href={tenantDemoUrl}
+            variant="sec"
+            size="sm"
+            className="hidden min-[560px]:inline-flex"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Демо үзэх
           </Button>
-          <Button href="#ehleh" variant="pri" size="sm">
+          <Button href={tenantUrl} variant="pri" size="sm" target="_blank" rel="noopener noreferrer">
             Үнэгүй турших
           </Button>
         </div>

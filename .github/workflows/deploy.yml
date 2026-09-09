@@ -68,6 +68,8 @@ jobs:
           tags: |
             ${{ steps.tag.outputs.image }}
             ${{ env.IMAGE }}:latest
+          build-args: |
+            TENANT_URL=${{ vars.TENANT_URL }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           provenance: false

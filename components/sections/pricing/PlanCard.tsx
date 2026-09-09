@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/Button";
 import { textColor } from "@/lib/colors";
 import { renderMoney } from "@/lib/money";
 
-export function PlanCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean }) {
+export function PlanCard({ plan, yearly, tenantUrl }: { plan: PricingPlan; yearly: boolean; tenantUrl: string }) {
   return (
     <div className={`c-plan p-6 px-[24px] py-[28px] ${plan.best ? "c-plan--best" : ""}`}>
       {plan.flag ? <span className="c-plan__flag">{plan.flag}</span> : null}
@@ -25,7 +25,13 @@ export function PlanCard({ plan, yearly }: { plan: PricingPlan; yearly: boolean 
         </li>
       </ul>
 
-      <Button href="#ehleh" variant={plan.ctaVariant === "pri" ? "pri" : "sec"} className="w-full">
+      <Button
+        href={tenantUrl}
+        variant={plan.ctaVariant === "pri" ? "pri" : "sec"}
+        className="w-full"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         {plan.cta}
       </Button>
     </div>

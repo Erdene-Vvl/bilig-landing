@@ -374,29 +374,10 @@ export const faq = {
   ],
 };
 
-export const cta = {
-  eyebrow: "Эхлэх",
-  title: "Утасны дугаараа *үлдээгээрэй*",
-  lede: "Ажлын өдөр 1 цагийн дотор холбогдож, танай төвийн жишээн дээр 20 минутын демо үзүүлнэ.",
-  phone: "+976 7000-0000",
-  email: "hello@bilig.mn",
-  fields: [
-    { id: "f1", label: "Таны нэр", placeholder: "Б. Сарантуяа", type: "text" as const, required: true },
-    { id: "f2", label: "Утасны дугаар", placeholder: "0000 0000", type: "tel" as const, required: true },
-    { id: "f3", label: "Сургалтын төвийн нэр", placeholder: "Жишээ сургалтын төв", type: "text" as const, required: true },
-    { id: "f4", label: "Одоогийн сурагчийн тоо", placeholder: "120", type: "numeric" as const, required: false },
-  ],
-  submit: "Демо цаг захиалах",
-  fine: "Мэдээллийг зөвхөн тантай холбогдоход ашиглана.",
-  successTitle: "Хүсэлт хүлээн авлаа.",
-  successBody: "Ажлын цагаар 1 цагийн дотор холбогдоно.",
-};
-
 export const footer = {
   copyright: "© 2026 BILIG LMS",
   links: [
     { href: "#une", label: "Үнэ" },
     { href: "#asuult", label: "Асуулт" },
-    { href: "#ehleh", label: "Холбоо барих" },
   ],
 };
