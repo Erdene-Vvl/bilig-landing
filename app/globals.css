@@ -723,6 +723,23 @@
       0 0 0 4px rgba(37, 99, 235, 0.1),
       var(--glow-lg);
   }
+  /* The custom/"talk to us" tier: no fixed price to anchor it visually
+     against its siblings, so it gets the brand gradient itself — a
+     border, not the solid single-color ring "best" uses — to read as a
+     different, more premium kind of highlight rather than competing with
+     "best" for the same signal. */
+  .c-plan--special {
+    border: 1.5px solid transparent;
+    background:
+      linear-gradient(var(--surface-2), var(--surface-2)) padding-box,
+      var(--band) border-box;
+    box-shadow: var(--glow-lg);
+  }
+  [data-theme="dark"] .c-plan--special {
+    background:
+      var(--card-grad) padding-box,
+      var(--band) border-box;
+  }
   .c-plan__flag {
     position: absolute;
     top: -12px;
@@ -736,6 +753,18 @@
     padding: 5px 12px;
     border-radius: 99px;
     font-weight: 500;
+  }
+  .c-plan__flag--special {
+    background: var(--band);
+    color: #fff;
+  }
+  /* Brand-gradient text — the Unlimited card's tagline, standing in for
+     where a price would otherwise sit. */
+  .c-band-text {
+    background: var(--band);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
   .c-plan__list li {
     padding: 7px 0;

@@ -49,7 +49,11 @@ export function planPresentation(sortedIndex: number, isUnlimited: boolean) {
   return {
     color,
     best,
-    flag: best ? "Түгээмэл" : undefined,
+    // Unlimited has no fixed price to make it stand out, so it gets its
+    // own highlight instead — the brand gradient itself, rather than
+    // "best"'s solid ring, so the two don't compete for the same signal.
+    special: isUnlimited,
+    flag: best ? "Түгээмэл" : isUnlimited ? "Тусгай санал" : undefined,
     cta: isUnlimited ? "Ярилцах" : "Эхлэх",
     ctaVariant: (best ? "pri" : "sec") as "pri" | "sec",
   };
