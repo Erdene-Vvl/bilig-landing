@@ -703,6 +703,16 @@
     border-radius: var(--r-lg);
     box-shadow: var(--glow);
     position: relative;
+    /* Cards in a row share a stretched height (see the pricing grid not
+       overriding align-items), but their own content — a price line vs.
+       an "unlimited" glyph, say — isn't the same length. Column flex +
+       pushing the list to grow keeps every card's CTA aligned on the same
+       baseline regardless. */
+    display: flex;
+    flex-direction: column;
+  }
+  .c-plan__list {
+    flex: 1;
   }
   [data-theme="dark"] .c-plan {
     background: var(--card-grad);
