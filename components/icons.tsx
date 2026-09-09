@@ -13,10 +13,11 @@ export function ScheduleIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-export function CoinIcon(props: SVGProps<SVGSVGElement>) {
+/** The Mongolian tugrik sign (₮): a T-stem crossed by two short bars. */
+export function TugrikIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" {...props}>
-      <path d="M12 3v18M7 7h7a3 3 0 010 6H7m0 0h8a3 3 0 010 6H7" />
+      <path d="M5 5h14M12 5v15M9 10h6M9 14h6" />
     </svg>
   );
 }
@@ -39,7 +40,7 @@ export function ChatIcon(props: SVGProps<SVGSVGElement>) {
 
 export const problemIcons = {
   grid: ScheduleIcon,
-  coin: CoinIcon,
+  tugrik: TugrikIcon,
   bars: BarsIcon,
   chat: ChatIcon,
 };
