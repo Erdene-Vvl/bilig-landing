@@ -1,17 +1,42 @@
-import type { PricingPlan } from "@/data/content";
+import type { BillingPeriod, PricingPlan } from "@/data/content";
 import { Button } from "@/components/ui/Button";
 import { textColor } from "@/lib/colors";
-import { renderMoney } from "@/lib/money";
+import { renderMoney, formatTugrik } from "@/lib/money";
 
-export function PlanCard({ plan, yearly, tenantUrl }: { plan: PricingPlan; yearly: boolean; tenantUrl: string }) {
+export function PlanCard({
+  plan,
+  period,
+  tenantUrl,
+}: {
+  plan: PricingPlan;
+  period: BillingPeriod;
+  tenantUrl: string;
+}) {
+  const fullPrice = plan.monthlyPrice * period.months;
+  const discountedPrice = fullPrice * (1 - period.discountPct / 100);
+  const hasDiscount = period.discountPct > 0;
+
+  // Plans with a fixed self-serve price deep-link straight into the tenant
+  // app's signup for that plan + period; Unlimited (no planId) goes to its
+  // general sales flow instead.
+  const href = plan.planId ? `${tenantUrl}/auth?planid=${plan.planId}&month=${period.months}` : tenantUrl;
+
   return (
     <div className={`c-plan p-6 px-[24px] py-[28px] ${plan.best ? "c-plan--best" : ""}`}>
       {plan.flag ? <span className="c-plan__flag">{plan.flag}</span> : null}
       <div className="font-display text-[16.5px] font-semibold">{plan.name}</div>
-      <div className={`font-display mt-3 mb-0.5 text-[29px] font-bold tracking-[-0.04em] ${textColor[plan.color]}`}>
-        {renderMoney(yearly ? plan.yearly : plan.monthly)}
+
+      <div className="mt-3 mb-0.5 flex flex-wrap items-baseline gap-2">
+        {hasDiscount ? (
+          <span className="font-display text-[15px] font-medium text-txt-3 line-through">
+            {renderMoney(formatTugrik(fullPrice))}
+          </span>
+        ) : null}
+        <span className={`font-display text-[29px] font-bold tracking-[-0.04em] ${textColor[plan.color]}`}>
+          {renderMoney(formatTugrik(discountedPrice))}
+        </span>
       </div>
-      <div className="font-mono-brand text-[11.5px] text-txt-2">{yearly ? "жилд" : "сар тутам"}</div>
+      <div className="font-mono-brand text-[11.5px] text-txt-2">{period.unit}</div>
 
       <ul className="c-plan__list my-5 list-none p-0 text-[14.5px] text-txt-2">
         <li>
@@ -26,7 +51,7 @@ export function PlanCard({ plan, yearly, tenantUrl }: { plan: PricingPlan; yearl
       </ul>
 
       <Button
-        href={tenantUrl}
+        href={href}
         variant={plan.ctaVariant === "pri" ? "pri" : "sec"}
         className="w-full"
         target="_blank"

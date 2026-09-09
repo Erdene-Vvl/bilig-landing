@@ -205,7 +205,7 @@ export const dayFlow = {
 
 export const modules = {
   eyebrow: "Систем",
-  title: "Зургаан модуль, *нэг өгөгдлийн сан*",
+  title: "Зургаан модуль, *нэг системд*",
   lede: "Ангид сурагчийг 1 удаа бүртгээд, нэхэмжлэх, ирцийн жагсаалт, эцэг эхийн эрх автоматаар үүснэ.",
   items: [
     {
@@ -266,10 +266,30 @@ export const beforeAfter = {
   ],
 };
 
+export interface BillingPeriod {
+  months: 1 | 3 | 12;
+  /** Toggle button label. */
+  label: string;
+  /** Price-caption unit, e.g. "сард" / "3 сард" / "жилд". */
+  unit: string;
+  /**
+   * DUMMY placeholder, not a real business figure: the actual discount
+   * comes from a not-yet-built discounts API (per plan + period). Until
+   * that exists, these fixed percentages stand in so the struck-through
+   * "original price -> discounted price" UI has something to render —
+   * swap this whole array for the API response shape once it exists.
+   */
+  discountPct: number;
+}
+
 export interface PricingPlan {
   name: string;
-  monthly: string;
-  yearly: string;
+  /** Numeric id the tenant app's signup flow expects
+   * (`/auth?planid=...&month=...`). Plans without one (Unlimited) have no
+   * fixed self-serve price — their CTA goes to the tenant app's general
+   * sales conversation instead. */
+  planId?: number;
+  monthlyPrice: number;
   students: string;
   teachers: string;
   branches: string;
@@ -285,11 +305,16 @@ export const pricing = {
   title: "Хэрэгцээндээ *тохируулж* сонго",
   lede: "Ямар ч багцыг сонгосон бүх боломж нээлттэй — зөвхөн сурагч, багш, салбарын тоогоороо ялгаатай.",
   note: "Эхний 14 хоног үнэгүй · Өгөгдөл шилжүүлэлт, багш нарын сургалт үнэгүй · Хүссэн үедээ зогсоож болно",
+  billingPeriods: [
+    { months: 1, label: "Сар", unit: "сард", discountPct: 0 },
+    { months: 3, label: "3 сар", unit: "3 сард", discountPct: 5 },
+    { months: 12, label: "Жил", unit: "жилд", discountPct: 15 },
+  ] satisfies BillingPeriod[],
   plans: [
     {
       name: "Starter",
-      monthly: "99,000₮",
-      yearly: "990,000₮",
+      planId: 1,
+      monthlyPrice: 99000,
       students: "50",
       teachers: "3",
       branches: "1",
@@ -299,8 +324,8 @@ export const pricing = {
     },
     {
       name: "Standard",
-      monthly: "199,000₮",
-      yearly: "1,990,000₮",
+      planId: 2,
+      monthlyPrice: 199000,
       students: "200",
       teachers: "10",
       branches: "2",
@@ -310,8 +335,8 @@ export const pricing = {
     },
     {
       name: "Professional",
-      monthly: "299,000₮",
-      yearly: "2,990,000₮",
+      planId: 3,
+      monthlyPrice: 299000,
       students: "600",
       teachers: "25",
       branches: "3",
@@ -323,8 +348,7 @@ export const pricing = {
     },
     {
       name: "Unlimited",
-      monthly: "599,000₮",
-      yearly: "5,990,000₮",
+      monthlyPrice: 599000,
       students: "Хязгааргүй",
       teachers: "Хязгааргүй",
       branches: "Хязгааргүй",
