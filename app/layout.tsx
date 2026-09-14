@@ -1,8 +1,9 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { Golos_Text, Onest, JetBrains_Mono } from "next/font/google";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { siteDescription, siteName, siteTitle, siteUrl } from "@/lib/site";
 import "./globals.css";
 
 // Unbounded (the previous display face) draws lowercase "ө" at a fraction
@@ -30,10 +31,50 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
+// Icons and the share image come from file conventions in this folder
+// (favicon.ico, icon.svg, apple-icon.png, opengraph-image.png); Next emits
+// their tags itself, so they aren't repeated here.
 export const metadata: Metadata = {
-  title: "BILIG LMS — Сургалтын төвийн удирдлагын систем",
-  description:
-    "Хуваарь, ирц, төлбөр, эцэг эхийн харилцаа — сургалтын төвийн бүх ажил нэг системд. 14 хоног үнэгүй.",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: siteTitle,
+    template: `%s | ${siteName}`,
+  },
+  description: siteDescription,
+  applicationName: siteName,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    url: "/",
+    siteName,
+    title: siteTitle,
+    description: siteDescription,
+    locale: "mn_MN",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteTitle,
+    description: siteDescription,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  category: "education",
+  formatDetection: { telephone: false, email: false, address: false },
+};
+
+// The page boots in its dark theme (see themeInitScript), so the mobile
+// browser chrome matches that background.
+export const viewport: Viewport = {
+  themeColor: "#080e1a",
 };
 
 const themeInitScript = `(function(){try{var t=localStorage.getItem('bilig-theme');document.documentElement.setAttribute('data-theme',t==='light'?'light':'dark')}catch(e){document.documentElement.setAttribute('data-theme','dark')}})();`;

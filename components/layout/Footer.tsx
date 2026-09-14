@@ -20,7 +20,7 @@ export function Footer() {
               >
                 {link.label}
               </a>
-              {i < links.length - 1 ? " · " : ""}
+              {i < links.length - 1 ? " | " : ""}
             </span>
           ))}
         </span>

@@ -9,10 +9,12 @@ import { BeforeAfter } from "@/components/sections/BeforeAfter";
 import { Pricing } from "@/components/sections/Pricing";
 import { FAQ } from "@/components/sections/FAQ";
 import { tenantUrl } from "@/lib/env";
+import { structuredData } from "@/lib/structured-data";
 
 export default function Home() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: structuredData }} />
       <Hero />
       <Problems />
       <Features />
