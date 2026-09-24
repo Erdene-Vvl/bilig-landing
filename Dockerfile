@@ -4,11 +4,15 @@
 # Built in CI (GitHub Actions), pushed to GHCR and pulled by the droplet —
 # the server has 2 vCPU and never builds this itself.
 #
-# The landing site is static content compiled into the bundle — no backend
-# calls, no secrets — but the homepage IS prerendered at build time, so the
-# one env var it does read (TENANT_URL, where the CTAs hand off to) has to
-# be supplied as a build arg here, not a runtime container env: setting it
-# on `docker run` would have no effect on an already-static page.
+# The landing site is static content compiled into the bundle, with one
+# exception: pricing is fetched live from the platform backend through the
+# /api/plans route handler. That handler runs on the deployed Node server,
+# so its env var (BACKEND_URL, defaulting to api.bilig.systems) is an
+# ordinary runtime container env — no build arg needed.
+#
+# TENANT_URL, where the CTAs hand off to, is different: the homepage IS
+# prerendered at build time, so it has to be supplied as a build arg here.
+# Setting it on `docker run` would have no effect on an already-static page.
 
 # ── deps ─────────────────────────────────────────────────────────────────
 FROM node:24-alpine AS deps

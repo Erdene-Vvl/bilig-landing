@@ -21,16 +21,19 @@ export const tenantUrl = (process.env.TENANT_URL || "#").replace(/\/+$/, "");
 export const tenantDemoUrl = `${tenantUrl}${tenantUrl.includes("?") ? "&" : "?"}demo=true`;
 
 /**
- * Base URL of the pricing/plans backend. Server-only — read by the
- * `/api/plans` route handler (see app/api/plans/route.ts), never shipped
- * to the browser. Unlike `tenantUrl`, this doesn't need to be a Docker
- * build arg: the route handler runs live on the deployed Node server, so
- * a plain runtime container env var reaches it fine and can change
- * without a rebuild.
+ * Origin of the platform backend (api.bilig.systems), WITHOUT the `/v1`
+ * version prefix — request paths carry that themselves, same convention as
+ * the admin and tenant apps' own `BACKEND_API_URL`.
  *
- * Empty in every environment today — the backend doesn't exist yet — in
- * which case the route handler serves DEMO_PLANS (see lib/plans.ts)
- * instead of erroring, so the site shows real-looking pricing until it
- * does.
+ * Server-only: read by the `/api/plans` route handler (see
+ * app/api/plans/route.ts), never shipped to the browser. Unlike
+ * `tenantUrl` this doesn't need to be a Docker build arg — the route
+ * handler runs live on the deployed Node server, so a plain runtime
+ * container env var reaches it fine and can change without a rebuild.
+ *
+ * Defaults to production rather than to empty: pricing comes from the
+ * backend now, and an unset var on the droplet would leave the pricing
+ * section showing an error instead of the real plans. Override it with
+ * `BACKEND_URL` to point at a local API.
  */
-export const backendUrl = (process.env.BACKEND_URL || "").replace(/\/+$/, "");
+export const backendUrl = (process.env.BACKEND_URL || "https://api.bilig.systems").replace(/\/+$/, "");
