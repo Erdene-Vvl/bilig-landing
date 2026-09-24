@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { pricing } from "@/data/content";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { renderEmphasis } from "@/lib/emphasis";
 import { Reveal } from "@/components/ui/Reveal";
 import {
   formatDate,
@@ -107,7 +108,9 @@ export function Pricing({ tenantUrl }: { tenantUrl: string }) {
           </div>
         </Reveal>
 
-        <p className="mt-[22px] text-center text-[14.5px] text-txt-2">{pricing.note}</p>
+        <p className="mt-[22px] text-center text-[14.5px] text-txt-2">
+          {renderEmphasis(pricing.note, "c-em font-semibold")}
+        </p>
       </div>
     </section>
   );
