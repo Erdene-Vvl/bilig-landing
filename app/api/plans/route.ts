@@ -1,36 +1,33 @@
 import { NextResponse } from "next/server";
 import { backendUrl } from "@/lib/env";
-import { DEMO_PLANS } from "@/lib/plans";
 
 /**
- * Same-origin proxy in front of the pricing backend's public plans
- * endpoint. Falls back to DEMO_PLANS whenever it can't reach a real one
- * (backendUrl unset, network error, non-2xx) — today that's always,
- * since the backend doesn't exist yet, so real visitors see believable
- * pricing instead of a broken section. The moment `BACKEND_URL` is set
- * and reachable, this starts proxying the real thing with no frontend
- * changes needed.
+ * Same-origin proxy in front of the platform backend's public pricing
+ * endpoint (`GET /v1/public/pricing`) — the same list the tenant app's plan
+ * chooser reads, maintained by staff on the admin app's Plans and Discounts
+ * pages.
+ *
+ * There is deliberately no local fallback: pricing that is merely
+ * plausible is worse than none, because a visitor who acts on a figure this
+ * page invented would meet a different one at checkout. When the backend
+ * can't be reached the section says so instead (see `Pricing`).
  *
  * Also keeps `BACKEND_URL` server-only (never shipped to client JS) and
- * gives the frontend a stable path regardless of what the backend's own
- * URL is or how it changes.
+ * gives the frontend a stable path regardless of the backend's own address.
  *
  * Runs on every request (no caching) — this is exactly the kind of data,
- * prices and discounts, that shouldn't go stale behind a build.
+ * prices and discounts, that must not go stale behind a build.
  */
 export async function GET() {
-  if (!backendUrl) {
-    return NextResponse.json(DEMO_PLANS);
-  }
-
   try {
-    const res = await fetch(`${backendUrl}/public/plans`, { cache: "no-store" });
+    const res = await fetch(`${backendUrl}/v1/public/pricing`, { cache: "no-store" });
     if (!res.ok) {
-      return NextResponse.json(DEMO_PLANS);
+      return NextResponse.json({ error: `Pricing backend returned ${res.status}` }, { status: 502 });
     }
-    const data = await res.json();
-    return NextResponse.json(data);
+    return NextResponse.json(await res.json(), {
+      headers: { "cache-control": "no-store" },
+    });
   } catch {
-    return NextResponse.json(DEMO_PLANS);
+    return NextResponse.json({ error: "Pricing backend unreachable" }, { status: 502 });
   }
 }
