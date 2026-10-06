@@ -17,8 +17,10 @@
 export const tenantUrl = (process.env.TENANT_URL || "#").replace(/\/+$/, "");
 
 /** Same destination, flagged so the tenant app can open straight into its
- * demo mode — used by every "Демо үзэх" button specifically. */
-export const tenantDemoUrl = `${tenantUrl}/auth${tenantUrl.includes("?") ? "&" : "?"}demo=true`;
+ * demo mode — used by every "Демо үзэх" button specifically. Unlike
+ * `tenantUrl` it falls back to production rather than "#", so the demo CTA
+ * works even when `TENANT_URL` is unset. */
+export const tenantDemoUrl = `${process.env.TENANT_URL ? tenantUrl : "https://tenant.bilig.systems"}/mn/auth?demo=true`;
 
 /**
  * Origin of the platform backend (api.bilig.systems), WITHOUT the `/v1`
