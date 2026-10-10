@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/Button";
 import { textColor } from "@/lib/colors";
 import { renderMoney, formatTugrik } from "@/lib/money";
+import { CONTACT_ANCHOR, LEAD_PLAN_EVENT, signupUrl, type LeadPlanDetail } from "@/lib/links";
 import { amount, campaignPrice, planPresentation, termFor, type ApiPlan } from "@/lib/plans";
 
 export function PlanCard({
@@ -25,14 +26,25 @@ export function PlanCard({
   const headline = promo ? promo.amount : term ? amount(term.amount) : 0;
   const offPercent = discount + (promo?.percent ?? 0);
 
-  // Plans with a fixed list price deep-link straight into the tenant app's
-  // signup for that plan + term; the custom tier (no fixed price) goes to
-  // its general sales flow instead. `plan`/`term` — not the plan's uuid,
-  // which is generated per environment — is what the tenant app's
+  // Plans with a fixed list price deep-link into the tenant app's sign-up for
+  // that plan + term, where the free trial starts on it. The custom tier has
+  // no price to sign up for, so "Ярилцах" scrolls to the contact form and
+  // tells it which plan the enquiry is about. `plan`/`term` — not the plan's
+  // uuid, which is generated per environment — is what the tenant app's
   // `lib/auth/plan-selection.ts` accepts.
-  const href = plan.isCustom
-    ? tenantUrl
-    : `${tenantUrl}/auth?plan=${encodeURIComponent(plan.code)}&term=${term?.months ?? months}`;
+  const ctaLink = plan.isCustom
+    ? {
+        href: `#${CONTACT_ANCHOR}`,
+        onClick: () =>
+          window.dispatchEvent(
+            new CustomEvent<LeadPlanDetail>(LEAD_PLAN_EVENT, { detail: { code: plan.code, name: plan.name } }),
+          ),
+      }
+    : {
+        href: signupUrl(tenantUrl, plan.code, term?.months ?? months),
+        target: "_blank",
+        rel: "noopener noreferrer",
+      };
 
   return (
     <div
@@ -110,7 +122,7 @@ export function PlanCard({
         </li>
       </ul>
 
-      <Button href={href} variant={ctaVariant} className="w-full" target="_blank" rel="noopener noreferrer">
+      <Button {...ctaLink} variant={ctaVariant} className="w-full">
         {cta}
       </Button>
     </div>

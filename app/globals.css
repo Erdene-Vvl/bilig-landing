@@ -875,7 +875,8 @@
     color: var(--txt-3);
     margin: 0 0 6px;
   }
-  .c-field input {
+  .c-field input,
+  .c-field textarea {
     width: 100%;
     background: var(--bg);
     border: 1.5px solid var(--line);
@@ -885,13 +886,20 @@
     font-size: 15.5px;
     color: var(--txt);
   }
-  [data-theme="dark"] .c-field input {
+  .c-field textarea {
+    min-height: 96px;
+    resize: vertical;
+  }
+  [data-theme="dark"] .c-field input,
+  [data-theme="dark"] .c-field textarea {
     background: var(--input-bg);
   }
-  .c-field input::placeholder {
+  .c-field input::placeholder,
+  .c-field textarea::placeholder {
     color: var(--txt-3);
   }
-  .c-field input:focus {
+  .c-field input:focus,
+  .c-field textarea:focus {
     border-color: var(--blue);
     outline: none;
   }

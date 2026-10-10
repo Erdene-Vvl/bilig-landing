@@ -8,7 +8,8 @@ import { UserTypes } from "@/components/sections/UserTypes";
 import { BeforeAfter } from "@/components/sections/BeforeAfter";
 import { Pricing } from "@/components/sections/Pricing";
 import { FAQ } from "@/components/sections/FAQ";
-import { tenantUrl } from "@/lib/env";
+import { ContactSection } from "@/components/sections/ContactSection";
+import { leadsEndpoint, tenantUrl } from "@/lib/env";
 import { structuredData } from "@/lib/structured-data";
 
 export default function Home() {
@@ -25,6 +26,7 @@ export default function Home() {
       <BeforeAfter />
       <Pricing tenantUrl={tenantUrl} />
       <FAQ />
+      <ContactSection leadsEndpoint={leadsEndpoint} />
     </>
   );
 }
