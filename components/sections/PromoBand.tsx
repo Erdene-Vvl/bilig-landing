@@ -1,7 +1,7 @@
 import { promoBand } from "@/data/content";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
-import { tenantUrl } from "@/lib/env";
+import { tenantSignupUrl } from "@/lib/env";
 
 export function PromoBand() {
   return (
@@ -16,7 +16,7 @@ export function PromoBand() {
                 </h2>
                 <p className="mt-3 max-w-[44ch] text-[16px] font-light text-white/80">{promoBand.body}</p>
               </div>
-              <Button href={tenantUrl} variant="white" target="_blank" rel="noopener noreferrer">
+              <Button href={tenantSignupUrl} variant="white" target="_blank" rel="noopener noreferrer">
                 {promoBand.cta}
               </Button>
             </div>

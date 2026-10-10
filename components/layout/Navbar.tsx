@@ -3,7 +3,7 @@ import { nav } from "@/data/content";
 import { Button } from "@/components/ui/Button";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { BiligLogo } from "@/components/ui/BiligLogo";
-import { tenantUrl, tenantDemoUrl } from "@/lib/env";
+import { tenantDemoUrl, tenantSignupUrl } from "@/lib/env";
 
 export function Navbar() {
   return (
@@ -33,7 +33,7 @@ export function Navbar() {
           >
             Демо үзэх
           </Button>
-          <Button href={tenantUrl} variant="pri" size="sm" target="_blank" rel="noopener noreferrer">
+          <Button href={tenantSignupUrl} variant="pri" size="sm" target="_blank" rel="noopener noreferrer">
             Үнэгүй турших
           </Button>
         </div>
