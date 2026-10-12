@@ -16,6 +16,7 @@ import {
   type PricingApiResponse,
 } from "@/lib/plans";
 import { PlanCard } from "./pricing/PlanCard";
+import { PlanInquiry } from "./pricing/PlanInquiry";
 
 /** `tenantUrl` is a server-only env value (see lib/env.ts) — this
  * component is a client component (for the billing-term toggle state),
@@ -49,6 +50,7 @@ export function Pricing({ tenantUrl }: { tenantUrl: string }) {
   }, []);
 
   const terms = plans ? offeredTerms(plans) : [];
+  const customPlans = plans ? plans.filter((plan) => plan.isCustom) : [];
 
   return (
     <section className="sec bg-s" id="une">
@@ -111,6 +113,15 @@ export function Pricing({ tenantUrl }: { tenantUrl: string }) {
         <p className="mt-[22px] text-center text-[14.5px] text-txt-2">
           {renderEmphasis(pricing.note, "c-em font-semibold")}
         </p>
+
+        {/* Only once the backend has named a negotiated plan: the form files
+            an inquiry against that plan's code, so without one there is
+            nothing for it to send. */}
+        {customPlans.length > 0 ? (
+          <Reveal>
+            <PlanInquiry plans={customPlans} />
+          </Reveal>
+        ) : null}
       </div>
     </section>
   );

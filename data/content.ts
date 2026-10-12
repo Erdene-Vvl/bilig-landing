@@ -277,6 +277,37 @@ export const pricing = {
   note: "*Эхний 14 хоног үнэгүй* | Өгөгдөл шилжүүлэлт, багш нарын сургалт үнэгүй | Хүссэн үедээ зогсоож болно",
 };
 
+/** The negotiated ("talk to us") plan's inquiry form, under the price table.
+ * Submissions land in the platform admin's ticket queue as a plan inquiry. */
+export const planInquiry = {
+  eyebrow: "Тусгай санал",
+  title: "Танай байгууллагад *тохирсон* нөхцөлийг ярилцъя",
+  lede: "Олон салбартай, олон сурагчтай байгууллагад үнэ болон нөхцөлийг тохиролцож гаргана. Мэдээллээ үлдээвэл Bilig баг тантай холбогдоно.",
+  planLabel: "Багц",
+  fields: {
+    contactName: { label: "Таны нэр", placeholder: "Б. Сарантуяа" },
+    contactPhone: { label: "Утасны дугаар", placeholder: "9911 2233" },
+    organizationName: { label: "Байгууллагын нэр", placeholder: "Жишээ сургалтын төв" },
+    contactEmail: { label: "И-мэйл", placeholder: "info@example.mn" },
+    studentCount: { label: "Сурагчийн тоо", placeholder: "900" },
+    branchCount: { label: "Салбарын тоо", placeholder: "3" },
+    message: { label: "Нэмэлт мэдээлэл", placeholder: "Юу хэрэгтэй байгаа, хэзээнээс эхлэх гэж байгаа…" },
+  },
+  optional: "заавал биш",
+  submit: "Хүсэлт илгээх",
+  sending: "Илгээж байна…",
+  fine: "Мэдээллийг зөвхөн тантай холбогдоход ашиглана.",
+  successTitle: "Бидэнтэй холбогдсонд *баярлалаа!*",
+  successBody: "Хүсэлтийг тань хүлээн авлаа. Bilig баг удахгүй тантай холбогдож, байгууллагад тань тохирсон нөхцөлийг ярилцана.",
+  again: "Өөр хүсэлт илгээх",
+  errors: {
+    phone: "Утасны дугаараа зөв оруулна уу.",
+    tooMany: "Хэт олон хүсэлт илгээлээ. Түр хүлээгээд дахин оролдоно уу.",
+    plan: "Энэ багцыг одоогоор санал болгохгүй байна.",
+    generic: "Хүсэлт илгээж чадсангүй. Дахин оролдоно уу.",
+  },
+};
+
 export const faq = {
   eyebrow: "",
   title: "Ихэвчлэн *ингэж асуудаг*",
