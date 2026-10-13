@@ -865,7 +865,7 @@
     background: var(--card-grad-strong);
   }
 
-  /* contact form */
+  /* contact form fields (contact/ContactForm, pricing/PlanInquiry) */
   .c-field label {
     display: block;
     font-family: var(--font-mono-brand);
@@ -876,7 +876,8 @@
     margin: 0 0 6px;
   }
   .c-field input,
-  .c-field textarea {
+  .c-field textarea,
+  .c-field select {
     width: 100%;
     background: var(--bg);
     border: 1.5px solid var(--line);
@@ -886,20 +887,37 @@
     font-size: 15.5px;
     color: var(--txt);
   }
-  .c-field textarea {
-    min-height: 96px;
-    resize: vertical;
-  }
   [data-theme="dark"] .c-field input,
-  [data-theme="dark"] .c-field textarea {
+  [data-theme="dark"] .c-field textarea,
+  [data-theme="dark"] .c-field select {
     background: var(--input-bg);
+  }
+  .c-field textarea {
+    resize: vertical;
+    min-height: 96px;
+    line-height: 1.5;
+  }
+  .c-field select {
+    appearance: none;
+    cursor: pointer;
+    /* the native arrow is gone with appearance: none; a chevron drawn in
+       the current text color stands in for it on both themes */
+    background-image: linear-gradient(45deg, transparent 50%, var(--txt-3) 50%),
+      linear-gradient(135deg, var(--txt-3) 50%, transparent 50%);
+    background-position:
+      calc(100% - 20px) 50%,
+      calc(100% - 15px) 50%;
+    background-size: 5px 5px;
+    background-repeat: no-repeat;
+    padding-right: 40px;
   }
   .c-field input::placeholder,
   .c-field textarea::placeholder {
     color: var(--txt-3);
   }
   .c-field input:focus,
-  .c-field textarea:focus {
+  .c-field textarea:focus,
+  .c-field select:focus {
     border-color: var(--blue);
     outline: none;
   }

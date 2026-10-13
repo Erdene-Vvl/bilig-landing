@@ -33,7 +33,10 @@ components/
                          # Features, DayFlow, Modules, Pricing, FAQ, CTA, ...);
                          # sections with a distinct visual (schedule grid,
                          # dashboard mocks, plan cards, contact form) get a
-                         # same-named subfolder
+                         # same-named subfolder (pricing/ also holds
+                         # PlanInquiry, the plan-inquiry form under the
+                         # price table; contact/ holds ContactForm, which
+                         # the custom plan's "Ярилцах" button scrolls to)
   icons.tsx             # Shared inline SVG icon set
 data/content.ts         # All copy + structured content (typed), kept out of
                          # components so they stay presentational
@@ -92,8 +95,26 @@ alongside `student` (3100), `tenant` (3101) and `admin` (3102). nginx
 hostnames with a Let's Encrypt certificate (`bilig-landing`) and proxies to
 3103; plain HTTP 301s to HTTPS.
 
-The image needs no configuration — the site is entirely static content
-compiled into the bundle, with no backend calls and no secrets.
+Two same-origin route handlers talk to the platform backend at runtime,
+through `BACKEND_URL` (a plain container env var, default
+`https://api.bilig.systems`; see `lib/env.ts`):
+
+- `GET /api/plans` → `GET /v1/public/pricing` — the price table.
+- `POST /api/plan-inquiry` → `POST /v1/public/tickets/plan-inquiry` — the
+  negotiated plan's inquiry form under the price table
+  (`components/sections/pricing/PlanInquiry.tsx`). It lands in the admin
+  app's **Хүсэлтүүд** queue as a plan inquiry. The handler limits each
+  visitor to 3 filed inquiries per 10 minutes and drops honeypot hits, keyed
+  on the last `X-Forwarded-For` entry nginx sets, so nginx must keep passing
+  it. Backend failures other than 400/429 reach the visitor as a 502.
+
+One call skips this server: the contact section's form (`ContactForm`, the
+"Ярилцах" target) posts **from the browser** straight to
+`POST ${BACKEND_URL}/v1/public/leads` (`leadsEndpoint` in `lib/env.ts`), so the
+backend's per-IP throttle sees each visitor's own address. The backend's
+`CORS_ORIGINS` must therefore list this site's origins.
+
+No secrets.
 
 Repo secret: `DEPLOY_SSH_KEY`, the private half of a deploy-only SSH key
 authorized for the `deploy` user on the droplet.
